@@ -15,7 +15,7 @@ var localDB = map[string]string{
 	"username": "system",
 	"server":   "localhost",
 	"port":     "1521",
-	"password": "oracle",
+	"password": "mysecretpassword",
 }
 
 func ConnectToDb() *sql.DB {
@@ -34,15 +34,15 @@ func ConnectToDb() *sql.DB {
 	return db
 }
 
-func GetProductionCardFromDb(productioncards []models.Productioncard) []models.Productioncard {
+func GetProductionScheduleFromDb(productionschedules []models.Productionschedule) []models.Productionschedule {
 
 	db := ConnectToDb()
-	fmt.Println("\nin GetProductionCardFromDb ", db)
+	fmt.Println("\nin GetProductionScheduleFromDb ", db)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	rows, err := db.QueryContext(ctx, "SELECT * FROM ORACLEDATABASE.productioncard")
+	rows, err := db.QueryContext(ctx, "SELECT * FROM A1B2C#.productionschedule")
 	fmt.Println(rows, err)
 	if err != nil {
 		fmt.Println("-------------------", err)
@@ -50,85 +50,86 @@ func GetProductionCardFromDb(productioncards []models.Productioncard) []models.P
 	}
 	//defer rows.Close()
 	for rows.Next() {
-		var a models.Productioncard
-		err := rows.Scan(&a.Contractnbr, &a.Requestdate, &a.Status, &a.Statusdate, &a.Statusby,
-			&a.Searchcode, &a.Cardcount, &a.Jobname, &a.Producedby, &a.Produceddate,
-			&a.Scheduleddate, &a.Cardtemplatecode, &a.Groupnbr, &a.Suffixnbr, &a.Matrldist, &a.Trancd,
-			&a.Reasoncd, &a.Reptype, &a.Litcode)
+		var a models.Productionschedule
+		err := rows.Scan(&a.Proddate, &a.Jobname, &a.Jobqueue, &a.Fullpathname, &a.Cardcount,
+			&a.Carriercount, &a.Requestdate, &a.Sentdate, &a.Completedate, &a.Issues,
+			&a.Status, &a.Filesequence, &a.Completedby, &a.Veridiedby, &a.Notes, &a.Embossedcards,
+			&a.Embossedcarriers, &a.Heldcards, &a.Heldcarriers)
 
 		if err != nil {
 			log.Fatal(err)
 		}
-		productioncards = append(productioncards, a)
-		fmt.Println(productioncards)
+		productionschedules = append(productionschedules, a)
+		fmt.Println(productionschedules)
 	}
 	err = rows.Err()
 	if err != nil {
 		log.Fatal(err)
 	}
-	return productioncards
+	return productionschedules
 }
 
-func GetProductioncardByContractnbrFromDb(contractnbr string) (models.Productioncard, error) {
+func GetProductionscheduleByJobnameFromDb(jobname string) (models.Productionschedule, error) {
 	fmt.Println("----In DB--------")
 	db := ConnectToDb()
-	fmt.Println("\nin GetProductioncardByContractnbrFromDb ", db)
+	fmt.Println("\nin GetProductionscheduleByJobnameFromDb ", db)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	var productioncard models.Productioncard
-	query := `SELECT * FROM ORACLEDATABASE.productioncard WHERE contractnbr = :1`
+	var productionschedule models.Productionschedule
+	query := `SELECT * FROM A1B2C#.productionschedule WHERE Jobname = :2`
 	fmt.Println("Query:", query)
 
 	// Prepare and execute the query
-	rows, err := db.QueryContext(ctx, query, contractnbr)
+	rows, err := db.QueryContext(ctx, query, jobname)
 	if err != nil {
-		return productioncard, err
+		return productionschedule, err
 	}
 	defer rows.Close()
 
 	if rows.Next() {
 		err := rows.Scan(
-			&productioncard.Contractnbr, &productioncard.Requestdate, &productioncard.Status,
-			&productioncard.Statusdate, &productioncard.Statusby, &productioncard.Searchcode,
-			&productioncard.Cardcount, &productioncard.Jobname, &productioncard.Producedby,
-			&productioncard.Produceddate, &productioncard.Scheduleddate, &productioncard.Cardtemplatecode,
-			&productioncard.Groupnbr, &productioncard.Suffixnbr, &productioncard.Matrldist,
-			&productioncard.Trancd, &productioncard.Reasoncd, &productioncard.Reptype,
-			&productioncard.Litcode,
+			&productionschedule.Proddate, &productionschedule.Jobname, &productionschedule.Jobqueue,
+			&productionschedule.Fullpathname, &productionschedule.Cardcount, &productionschedule.Carriercount,
+			&productionschedule.Requestdate, &productionschedule.Sentdate, &productionschedule.Completedate,
+			&productionschedule.Issues, &productionschedule.Status, &productionschedule.Filesequence,
+			&productionschedule.Completedby, &productionschedule.Veridiedby, &productionschedule.Notes,
+			&productionschedule.Embossedcards, &productionschedule.Embossedcarriers, &productionschedule.Heldcards,
+			&productionschedule.Heldcarriers,
 		)
+
 		if err != nil {
-			return productioncard, err
+			return productionschedule, err
 		}
-		fmt.Println("Got a particular production card from the table successfully")
+		fmt.Println("Got a particular production schedule from the table successfully")
 	}
 
-	return productioncard, nil
+	return productionschedule, nil
 }
 
-func PostAddProductionToDb(productioncards models.Productioncard) {
+func PostAddProductionToDb(productionschedule models.Productionschedule) {
 	db := ConnectToDb()
 	fmt.Println("\nin PostAddAlbumToDb ", db)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `INSERT INTO ORACLEDATABASE.productioncard (Contractnbr, Requestdate, Status, Statusdate, Statusby,
-		Searchcode, Cardcount, Jobname, Producedby, Produceddate,
-		Scheduleddate, Cardtemplatecode, Groupnbr, Suffixnbr, Matrldist, Trancd,
-		Reasoncd, Reptype, Litcode) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)`
+	query := `INSERT INTO A1B2C#.Productionschedule (Proddate, Jobname, Jobqueue, Fullpathname, Cardcount,
+		Carriercount, Requestdate, Sentdate, Completedate, Issues,
+		Status, Filesequence, Completedby, Veridiedby, Notes, Embossedcards,
+		Embossedcarriers, Heldcards, Heldcarriers) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)`
 
 	fmt.Println("QUERY:", query)
 
 	_, err := db.ExecContext(ctx, query,
-		productioncards.Contractnbr, productioncards.Requestdate, productioncards.Status,
-		productioncards.Statusdate, productioncards.Statusby, productioncards.Searchcode,
-		productioncards.Cardcount, productioncards.Jobname, productioncards.Producedby,
-		productioncards.Produceddate, productioncards.Scheduleddate, productioncards.Cardtemplatecode,
-		productioncards.Groupnbr, productioncards.Suffixnbr, productioncards.Matrldist,
-		productioncards.Trancd, productioncards.Reasoncd, productioncards.Reptype,
-		productioncards.Litcode)
+		&productionschedule.Proddate, &productionschedule.Jobname, &productionschedule.Jobqueue,
+		&productionschedule.Fullpathname, &productionschedule.Cardcount, &productionschedule.Carriercount,
+		&productionschedule.Requestdate, &productionschedule.Sentdate, &productionschedule.Completedate,
+		&productionschedule.Issues, &productionschedule.Status, &productionschedule.Filesequence,
+		&productionschedule.Completedby, &productionschedule.Veridiedby, &productionschedule.Notes,
+		&productionschedule.Embossedcards, &productionschedule.Embossedcarriers, &productionschedule.Heldcards,
+		&productionschedule.Heldcarriers)
 	if err != nil {
 		fmt.Println("Error in executing query")
 		log.Fatal(err)
@@ -136,14 +137,14 @@ func PostAddProductionToDb(productioncards models.Productioncard) {
 	fmt.Println("Added New Production card successfully")
 }
 
-func DeleteAlbumFromDb(contractnbr string) {
+func DeleteAlbumFromDb(jobname string) {
 	db := ConnectToDb()
-	fmt.Println("\nin GetProductionCardFromDb ", db)
+	fmt.Println("\nin GetProductionScheduleFromDb ", db)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := fmt.Sprintf("DELETE FROM ORACLEDATABASE.productioncard WHERE contractnbr = %s", contractnbr)
+	query := fmt.Sprintf("DELETE FROM A1B2C#.productionschedule WHERE jobname = '%s'", jobname)
 	fmt.Println("Query:", query)
 
 	// Execute the DELETE query
@@ -151,34 +152,87 @@ func DeleteAlbumFromDb(contractnbr string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("productioncard with contractnbr:", contractnbr, "deleted successfully")
+	fmt.Println("productionschedule with jobname:", jobname, "deleted successfully")
 }
 
-func UpdateProductionInDb(productioncards models.Productioncard) {
+func UpdateProductionInDb(productionschedule models.Productionschedule) {
 	db := ConnectToDb()
-	fmt.Println("\nin GetProductionCardFromDb ", db)
+	fmt.Println("\nin GetProductionScheduleFromDb ", db)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `UPDATE ORACLEDATABASE.productioncard SET Contractnbr = :1, Requestdate = :2, Status = :3, Statusdate = :4, Statusby = :5,
-	Searchcode = :6, Cardcount = :7, Jobname = :8, Producedby = :9, Produceddate = :10,
-	Scheduleddate = :11, Cardtemplatecode = :12, Groupnbr = :13, Suffixnbr = :14, Matrldist = :15, Trancd = :16,
-	Reasoncd = :17, Reptype = :18, Litcode = :19  WHERE Contractnbr = :1`
+	query := `UPDATE A1B2C#.Productionschedule SET Proddate = :1, Jobname = :2, Jobqueue = :3, Fullpathname = :4, Cardcount = :5,
+	Carriercount = :6, Requestdate = :7, Sentdate = :8, Completedate = :9, Issues = :10,
+	Status = :11, Filesequence = :12, Completedby = :13, Veridiedby = :14, Notes = :15, Embossedcards = :16,
+	Embossedcarriers = :17, Heldcards = :18, Heldcarriers = :19  WHERE Jobname = :2`
+
+	// query := `UPDATE A1B2C#.Productionschedule SET
+	// Proddate = :1, Jobqueue = :3, Fullpathname = :4, Cardcount = :5,
+	// Carriercount = :6, Requestdate = :7, Sentdate = :8, Completedate = :9,
+	// Issues = :10, Status = :11, Filesequence = :12, Completedby = :13,
+	// Veridiedby = :14, Notes = :15, Embossedcards = :16,
+	// Embossedcarriers = :17, Heldcards = :18, Heldcarriers = :19 WHERE Jobname = :2`
 
 	fmt.Println("Query:", query)
 
 	_, err := db.ExecContext(ctx, query,
-		productioncards.Contractnbr, productioncards.Requestdate, productioncards.Status,
-		productioncards.Statusdate, productioncards.Statusby, productioncards.Searchcode,
-		productioncards.Cardcount, productioncards.Jobname, productioncards.Producedby,
-		productioncards.Produceddate, productioncards.Scheduleddate, productioncards.Cardtemplatecode,
-		productioncards.Groupnbr, productioncards.Suffixnbr, productioncards.Matrldist,
-		productioncards.Trancd, productioncards.Reasoncd, productioncards.Reptype,
-		productioncards.Litcode)
+		&productionschedule.Proddate, &productionschedule.Jobname, &productionschedule.Jobqueue,
+		&productionschedule.Fullpathname, &productionschedule.Cardcount, &productionschedule.Carriercount,
+		&productionschedule.Requestdate, &productionschedule.Sentdate, &productionschedule.Completedate,
+		&productionschedule.Issues, &productionschedule.Status, &productionschedule.Filesequence,
+		&productionschedule.Completedby, &productionschedule.Veridiedby, &productionschedule.Notes,
+		&productionschedule.Embossedcards, &productionschedule.Embossedcarriers, &productionschedule.Heldcards,
+		&productionschedule.Heldcarriers)
 	if err != nil {
 		fmt.Println("Error in executing query")
 		log.Fatal(err)
 	}
 	fmt.Println("Record updated successfully.")
 }
+
+//===============================================================
+
+// func updateProductionByID(c *gin.Context) {
+// 	contractnbr := c.Param("contractnbr")
+// 	fmt.Println(contractnbr)
+// 	// Parse the request body to get the updated album data
+// 	var updatedProductioncard models.Productioncard
+// 	if err := c.ShouldBindJSON(&updatedProductioncard); err != nil {
+// 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+// 		return
+// 	}
+// 	productioncards = dataservice.GetProductionCardFromDb(productioncards)
+// 	for index, a := range productioncards {
+// 		if a.Contractnbr == contractnbr {
+// 			fmt.Println("In for Contractnbr is:", a.Contractnbr)
+// 			//db := dataservice.ConnectToDb()
+// 			dataservice.UpdateProductionInDb(updatedProductioncard)
+// 			// Update the album's data with the new data from the request body
+// 			productioncards[index].Contractnbr = updatedProductioncard.Contractnbr
+// 			productioncards[index].Requestdate = updatedProductioncard.Requestdate
+// 			productioncards[index].Status = updatedProductioncard.Status
+// 			productioncards[index].Statusdate = updatedProductioncard.Statusdate
+// 			productioncards[index].Statusby = updatedProductioncard.Statusby
+// 			productioncards[index].Searchcode = updatedProductioncard.Searchcode
+// 			productioncards[index].Cardcount = updatedProductioncard.Cardcount
+// 			productioncards[index].Jobname = updatedProductioncard.Jobname
+// 			productioncards[index].Producedby = updatedProductioncard.Producedby
+// 			productioncards[index].Produceddate = updatedProductioncard.Produceddate
+// 			productioncards[index].Scheduleddate = updatedProductioncard.Scheduleddate
+// 			productioncards[index].Cardtemplatecode = updatedProductioncard.Cardtemplatecode
+// 			productioncards[index].Groupnbr = updatedProductioncard.Groupnbr
+// 			productioncards[index].Suffixnbr = updatedProductioncard.Suffixnbr
+// 			productioncards[index].Matrldist = updatedProductioncard.Matrldist
+// 			productioncards[index].Trancd = updatedProductioncard.Trancd
+// 			productioncards[index].Reasoncd = updatedProductioncard.Reasoncd
+// 			productioncards[index].Reptype = updatedProductioncard.Reptype
+// 			productioncards[index].Litcode = updatedProductioncard.Litcode
+
+// 			c.IndentedJSON(http.StatusOK, productioncards[index])
+// 			return
+// 		}
+// 	}
+
+// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "productioncards not found"})
+// }
