@@ -14,17 +14,14 @@ var productioncards []models.Productioncard
 
 func getProduction(c *gin.Context) {
 	fmt.Println("To get all the productioncards present")
-	// db := dataservice.ConnectToDb()
-	// fmt.Println("\n in getProduction", db)
+	productioncards = make([]models.Productioncard, 0)
 	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	c.IndentedJSON(http.StatusOK, productioncards)
-	productioncards = make([]models.Productioncard, 0)
 }
 
 func getProductionByID(c *gin.Context) {
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 
 	// You're looping over productioncards, but you haven't shown where productioncards is defined.
 	// Assuming productioncards is a slice of models.Productioncard.
@@ -41,7 +38,6 @@ func getProductionByID(c *gin.Context) {
 			}
 			// Return the fetched production card
 			c.IndentedJSON(http.StatusOK, productioncardbycontractnbr)
-			productioncards = make([]models.Productioncard, 0)
 			return
 		}
 	}
@@ -57,22 +53,18 @@ func addProduction(c *gin.Context) {
 	// Call BindJSON to bind the received JSON to
 	// newAlbum.
 	if err := c.BindJSON(&newproductioncards); err != nil {
-		// fmt.Println("ERROR in getting data")
+		fmt.Println("ERROR in getting data")
 		return
 	}
 	// Add the new album to the slice.
 	fmt.Println(newproductioncards)
-	//db := dataservice.ConnectToDb()
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	dataservice.PostAddProductionToDb(newproductioncards)
 	productioncards = append(productioncards, newproductioncards)
 	fmt.Println(productioncards)
 	c.IndentedJSON(http.StatusCreated, newproductioncards)
-	productioncards = make([]models.Productioncard, 0)
 }
 
 func deleteProductionByID(c *gin.Context) {
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
 	for index, a := range productioncards {
@@ -82,7 +74,6 @@ func deleteProductionByID(c *gin.Context) {
 			dataservice.DeleteAlbumFromDb(a.Contractnbr)
 			productioncards = append(productioncards[:index], productioncards[index+1:]...)
 			c.IndentedJSON(http.StatusOK, a)
-			productioncards = make([]models.Productioncard, 0)
 			return
 		}
 	}
@@ -100,7 +91,6 @@ func updateProductionByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	for index, a := range productioncards {
 		if a.Contractnbr == contractnbr {
 			fmt.Println("In for Contractnbr is:", a.Contractnbr)
@@ -128,7 +118,6 @@ func updateProductionByID(c *gin.Context) {
 			productioncards[index].Litcode = updatedProductioncard.Litcode
 
 			c.IndentedJSON(http.StatusOK, productioncards[index])
-			productioncards = make([]models.Productioncard, 0)
 			return
 		}
 	}
