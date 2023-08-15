@@ -23,3 +23,23 @@ type Productioncard struct {
 	Reptype          string    `json:"reptype"`
 	Litcode          string    `json:"litcode"`
 }
+
+type Graphic struct {
+	GraphicName         string    `json:"GRAPHICNAME"`
+	GraphicRevisionNbr  int       `json:"GRAPHICREVISIONNBR"`
+	GraphicDesc         string    `json:"GRAPHICDESC"`
+	GraphicFileName     string    `json:"GRAPHICFILENAME"`
+	GraphicImage        int64     `json:"GRAPHICIMAGE"`
+	DefaultTopPos       float64   `json:"DEFAULTTOPPOS"`
+	DefaultLeftPos      float64   `json:"DEFAULTLEFTPOS"`
+	DefaultColorCode    string    `json:"DEFAULTCOLORCODE"`
+	DefaultLocationCode string    `json:"DEFAULTLOCATIONCODE"`
+	DefaultHeight       float64   `json:"DEFAULTHEIGHT"`
+	DefaultWidth        float64   `json:"DEFAULTWIDTH"`
+	EffectiveDate       time.Time `json:"EFFECTIVEDATE"`
+	EndDate             time.Time `json:"ENDDATE"`
+	LastUpdateTs        time.Time `json:"LASTUPDATETS"`
+	LastUpdateUserId    string    `json:"LASTUPDATEUSERID"`
+	VertOffset          int       `json:"VERTOOFFSET"`
+	HorizOffset         int       `json:"HORIZOFFSET"`
+}
