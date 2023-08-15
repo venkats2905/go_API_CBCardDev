@@ -24,6 +24,7 @@ func getProduction(c *gin.Context) {
 func getProductionByID(c *gin.Context) {
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
+	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 
 	// You're looping over productioncards, but you haven't shown where productioncards is defined.
 	// Assuming productioncards is a slice of models.Productioncard.
@@ -40,6 +41,7 @@ func getProductionByID(c *gin.Context) {
 			}
 			// Return the fetched production card
 			c.IndentedJSON(http.StatusOK, productioncardbycontractnbr)
+			productioncards = make([]models.Productioncard, 0)
 			return
 		}
 	}
@@ -66,6 +68,7 @@ func addProduction(c *gin.Context) {
 	productioncards = append(productioncards, newproductioncards)
 	fmt.Println(productioncards)
 	c.IndentedJSON(http.StatusCreated, newproductioncards)
+	productioncards = make([]models.Productioncard, 0)
 }
 
 func deleteProductionByID(c *gin.Context) {
@@ -79,6 +82,7 @@ func deleteProductionByID(c *gin.Context) {
 			dataservice.DeleteAlbumFromDb(a.Contractnbr)
 			productioncards = append(productioncards[:index], productioncards[index+1:]...)
 			c.IndentedJSON(http.StatusOK, a)
+			productioncards = make([]models.Productioncard, 0)
 			return
 		}
 	}
@@ -124,6 +128,7 @@ func updateProductionByID(c *gin.Context) {
 			productioncards[index].Litcode = updatedProductioncard.Litcode
 
 			c.IndentedJSON(http.StatusOK, productioncards[index])
+			productioncards = make([]models.Productioncard, 0)
 			return
 		}
 	}
