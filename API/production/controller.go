@@ -16,9 +16,9 @@ func getProduction(c *gin.Context) {
 	fmt.Println("To get all the productioncards present")
 	// db := dataservice.ConnectToDb()
 	// fmt.Println("\n in getProduction", db)
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
+	productioncards = dataservice.GetProductionCardFromDb(nil)
 	c.IndentedJSON(http.StatusOK, productioncards)
-	productioncards = make([]models.Productioncard, 0)
+	//productioncards = make([]models.Productioncard, 0)
 }
 
 func getProductionByID(c *gin.Context) {
@@ -61,7 +61,6 @@ func addProduction(c *gin.Context) {
 	// Add the new album to the slice.
 	fmt.Println(newproductioncards)
 	//db := dataservice.ConnectToDb()
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	dataservice.PostAddProductionToDb(newproductioncards)
 	productioncards = append(productioncards, newproductioncards)
 	fmt.Println(productioncards)
@@ -69,7 +68,6 @@ func addProduction(c *gin.Context) {
 }
 
 func deleteProductionByID(c *gin.Context) {
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
 	for index, a := range productioncards {
@@ -83,7 +81,6 @@ func deleteProductionByID(c *gin.Context) {
 		}
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "productioncard not found"})
-	productioncards = make([]models.Productioncard, 0)
 
 }
 
@@ -96,7 +93,6 @@ func updateProductionByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	productioncards = dataservice.GetProductionCardFromDb(productioncards)
 	for index, a := range productioncards {
 		if a.Contractnbr == contractnbr {
 			fmt.Println("In for Contractnbr is:", a.Contractnbr)
