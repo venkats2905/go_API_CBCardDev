@@ -1,7 +1,7 @@
 package dataservice
 
 import (
-	"database/sql"
+	//"database/sql"
 	"db/models"
 	"fmt"
 	"log"
@@ -10,30 +10,31 @@ import (
 	"golang.org/x/net/context"
 )
 
-var localDB = map[string]string{
-	"service":  "xe",
-	"username": "system",
-	"server":   "localhost",
-	"port":     "1521",
-	"password": "oracle",
-}
-
-func ConnectToDb() *sql.DB {
-	connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
-	db, err := sql.Open("oracle", connectionString)
-	if err != nil {
-		log.Fatal("Error connecting to the database:", err)
-	}
-	err = db.Ping()
-	if err != nil {
-		log.Fatal("Error pinging the database:", err)
+/*
+	var localDB = map[string]string{
+		"service":  "xe",
+		"username": "system",
+		"server":   "localhost",
+		"port":     "1521",
+		"password": "oracle",
 	}
 
-	fmt.Println("Connected to the Oracle database!")
-	fmt.Println("\n------", db)
-	return db
-}
+	func ConnectToDb() *sql.DB {
+		connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
+		db, err := sql.Open("oracle", connectionString)
+		if err != nil {
+			log.Fatal("Error connecting to the database:", err)
+		}
+		err = db.Ping()
+		if err != nil {
+			log.Fatal("Error pinging the database:", err)
+		}
 
+		fmt.Println("Connected to the Oracle database!")
+		fmt.Println("\n------", db)
+		return db
+	}
+*/
 func GetProductionCardFromDb(productioncards []models.Productioncard) []models.Productioncard {
 
 	db := ConnectToDb()
