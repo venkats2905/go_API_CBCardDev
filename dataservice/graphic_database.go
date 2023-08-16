@@ -17,7 +17,7 @@ func GetGraphicCardFromDb(graphics []models.Graphic) []models.Graphic {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	rows, err := db.QueryContext(ctx, "SELECT * FROM MANISH_ORACLE_DB.graphic")
+	rows, err := db.QueryContext(ctx, "SELECT * FROM A1B2C#.graphic")
 	fmt.Println(rows, err)
 	if err != nil {
 		fmt.Println("-------------------", err)
@@ -68,7 +68,7 @@ func GetGraphicByGraphicrevisionnbrFromDb(graphicrevisionnbr int) (models.Graphi
 	defer cancel()
 
 	var graphiccard models.Graphic
-	query := `SELECT * FROM MANISH_ORACLE_DB.graphic WHERE graphicrevisionnbr = :1`
+	query := `SELECT * FROM A1B2C#.graphic WHERE graphicrevisionnbr = :1`
 	fmt.Println("Query:", query)
 
 	// Prepare and execute the query
@@ -115,7 +115,7 @@ func PostAddGraphicToDb(graphics models.Graphic) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `INSERT INTO MANISH_ORACLE_DB.graphic (
+	query := `INSERT INTO A1B2C#.graphic (
 		GraphicName, GraphicRevisionNbr, GraphicDesc, GraphicFileName, GraphicImage,
 		DefaultTopPos, DefaultLeftPos, DefaultColorCode, DefaultLocationCode,
 		DefaultHeight, DefaultWidth, EffectiveDate, EndDate, LastUpdateTs, LastUpdateUserId,
@@ -145,7 +145,7 @@ func DeleteGraphicAlbumFromDb(graphicrevisionnbr int) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := fmt.Sprintf("DELETE FROM MANISH_ORACLE_DB.graphic WHERE graphicrevisionnbr = %d", graphicrevisionnbr)
+	query := fmt.Sprintf("DELETE FROM A1B2C#.graphic WHERE graphicrevisionnbr = %d", graphicrevisionnbr)
 	fmt.Println("Query:", query)
 
 	// Execute the DELETE query
@@ -163,7 +163,7 @@ func UpdateGraphicInDb(graphics models.Graphic) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `UPDATE MANISH_ORACLE_DB.graphic SET
+	query := `UPDATE A1B2C#.graphic SET
     GraphicName = :1, GraphicRevisionNbr = :2, GraphicDesc = :3,
     GraphicFileName = :4, GraphicImage = :5, DefaultTopPos = :6,
     DefaultLeftPos = :7, DefaultColorCode = :8, DefaultLocationCode = :9,

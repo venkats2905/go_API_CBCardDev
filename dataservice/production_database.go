@@ -1,7 +1,6 @@
 package dataservice
 
 import (
-	"database/sql"
 	"db/models"
 	"fmt"
 	"log"
@@ -10,29 +9,29 @@ import (
 	"golang.org/x/net/context"
 )
 
-var localDB = map[string]string{
-	"service":  "xe",
-	"username": "system",
-	"server":   "localhost",
-	"port":     "1521",
-	"password": "oracle",
-}
+// var localDB = map[string]string{
+// 	"service":  "xe",
+// 	"username": "system",
+// 	"server":   "localhost",
+// 	"port":     "1521",
+// 	"password": "oracle",
+// }
 
-func ConnectToDb() *sql.DB {
-	connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
-	db, err := sql.Open("oracle", connectionString)
-	if err != nil {
-		log.Fatal("Error connecting to the database:", err)
-	}
-	err = db.Ping()
-	if err != nil {
-		log.Fatal("Error pinging the database:", err)
-	}
+// func ConnectToDb() *sql.DB {
+// 	connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
+// 	db, err := sql.Open("oracle", connectionString)
+// 	if err != nil {
+// 		log.Fatal("Error connecting to the database:", err)
+// 	}
+// 	err = db.Ping()
+// 	if err != nil {
+// 		log.Fatal("Error pinging the database:", err)
+// 	}
 
-	fmt.Println("Connected to the Oracle database!")
-	fmt.Println("\n------", db)
-	return db
-}
+// 	fmt.Println("Connected to the Oracle database!")
+// 	fmt.Println("\n------", db)
+// 	return db
+// }
 
 func GetProductionCardFromDb(productioncards []models.Productioncard) []models.Productioncard {
 
@@ -42,7 +41,7 @@ func GetProductionCardFromDb(productioncards []models.Productioncard) []models.P
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	rows, err := db.QueryContext(ctx, "SELECT * FROM MANISH_ORACLE_DB.productioncard")
+	rows, err := db.QueryContext(ctx, "SELECT * FROM A1B2C#.productioncard")
 	fmt.Println(rows, err)
 	if err != nil {
 		fmt.Println("-------------------", err)
@@ -78,7 +77,7 @@ func GetProductioncardByContractnbrFromDb(contractnbr string) (models.Production
 	defer cancel()
 
 	var productioncard models.Productioncard
-	query := `SELECT * FROM MANISH_ORACLE_DB.productioncard WHERE contractnbr = :1`
+	query := `SELECT * FROM A1B2C#.productioncard WHERE contractnbr = :1`
 	fmt.Println("Query:", query)
 
 	// Prepare and execute the query
