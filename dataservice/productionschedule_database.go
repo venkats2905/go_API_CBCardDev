@@ -1,7 +1,6 @@
 package dataservice
 
 import (
-	"database/sql"
 	"db/models"
 	"fmt"
 	"log"
@@ -9,30 +8,6 @@ import (
 	_ "github.com/sijms/go-ora/v2"
 	"golang.org/x/net/context"
 )
-
-var localDB = map[string]string{
-	"service":  "xe",
-	"username": "system",
-	"server":   "localhost",
-	"port":     "1521",
-	"password": "mysecretpassword",
-}
-
-func ConnectToDb() *sql.DB {
-	connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
-	db, err := sql.Open("oracle", connectionString)
-	if err != nil {
-		log.Fatal("Error connecting to the database:", err)
-	}
-	err = db.Ping()
-	if err != nil {
-		log.Fatal("Error pinging the database:", err)
-	}
-
-	fmt.Println("Connected to the Oracle database!")
-	fmt.Println("\n------", db)
-	return db
-}
 
 func GetProductionScheduleFromDb(productionschedules []models.Productionschedule) []models.Productionschedule {
 

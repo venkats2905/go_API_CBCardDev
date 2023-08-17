@@ -1,6 +1,7 @@
 package dataservice
 
 import (
+	"database/sql"
 	"db/models"
 	"fmt"
 	"log"
@@ -9,29 +10,29 @@ import (
 	"golang.org/x/net/context"
 )
 
-// var localDB = map[string]string{
-// 	"service":  "xe",
-// 	"username": "system",
-// 	"server":   "localhost",
-// 	"port":     "1521",
-// 	"password": "oracle",
-// }
+var localDB = map[string]string{
+	"service":  "xe",
+	"username": "system",
+	"server":   "localhost",
+	"port":     "1521",
+	"password": "oracle",
+}
 
-// func ConnectToDb() *sql.DB {
-// 	connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
-// 	db, err := sql.Open("oracle", connectionString)
-// 	if err != nil {
-// 		log.Fatal("Error connecting to the database:", err)
-// 	}
-// 	err = db.Ping()
-// 	if err != nil {
-// 		log.Fatal("Error pinging the database:", err)
-// 	}
+func ConnectToDb() *sql.DB {
+	connectionString := "oracle://" + localDB["username"] + ":" + localDB["password"] + "@" + localDB["server"] + ":" + localDB["port"] + "/" + localDB["service"]
+	db, err := sql.Open("oracle", connectionString)
+	if err != nil {
+		log.Fatal("Error connecting to the database:", err)
+	}
+	err = db.Ping()
+	if err != nil {
+		log.Fatal("Error pinging the database:", err)
+	}
 
-// 	fmt.Println("Connected to the Oracle database!")
-// 	fmt.Println("\n------", db)
-// 	return db
-// }
+	fmt.Println("Connected to the Oracle database!")
+	fmt.Println("\n------", db)
+	return db
+}
 
 func GetProductionCardFromDb(productioncards []models.Productioncard) []models.Productioncard {
 
@@ -113,7 +114,7 @@ func PostAddProductionToDb(productioncards models.Productioncard) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `INSERT INTO MANISH_ORACLE_DB.productioncard (Contractnbr, Requestdate, Status, Statusdate, Statusby,
+	query := `INSERT INTO A1B2C#.productioncard (Contractnbr, Requestdate, Status, Statusdate, Statusby,
 		Searchcode, Cardcount, Jobname, Producedby, Produceddate,
 		Scheduleddate, Cardtemplatecode, Groupnbr, Suffixnbr, Matrldist, Trancd,
 		Reasoncd, Reptype, Litcode) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)`
@@ -142,7 +143,7 @@ func DeleteAlbumFromDb(contractnbr string) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := fmt.Sprintf("DELETE FROM MANISH_ORACLE_DB.productioncard WHERE contractnbr = %s", contractnbr)
+	query := fmt.Sprintf("DELETE FROM A1B2C#.productioncard WHERE contractnbr = %s", contractnbr)
 	fmt.Println("Query:", query)
 
 	// Execute the DELETE query
@@ -160,7 +161,7 @@ func UpdateProductionInDb(productioncards models.Productioncard) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `UPDATE MANISH_ORACLE_DB.productioncard SET Contractnbr = :1, Requestdate = :2, Status = :3, Statusdate = :4, Statusby = :5,
+	query := `UPDATE A1B2C#.productioncard SET Contractnbr = :1, Requestdate = :2, Status = :3, Statusdate = :4, Statusby = :5,
 	Searchcode = :6, Cardcount = :7, Jobname = :8, Producedby = :9, Produceddate = :10,
 	Scheduleddate = :11, Cardtemplatecode = :12, Groupnbr = :13, Suffixnbr = :14, Matrldist = :15, Trancd = :16,
 	Reasoncd = :17, Reptype = :18, Litcode = :19  WHERE Contractnbr = :1`
