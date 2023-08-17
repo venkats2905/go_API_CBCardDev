@@ -43,3 +43,20 @@ type Graphic struct {
 	VertOffset          int       `json:"VERTOOFFSET"`
 	HorizOffset         int       `json:"HORIZOFFSET"`
 }
+type Platform struct {
+	Idtype        string `json:"IDTYPE"`
+	Priority      string `json:"PRIORITY"`
+	Description   string `json:"DESCRIPTION"`
+	Plasticstock  string `json:"PLASTICSTOCK"`
+	Carrierstock  string `json:"CARRIERSTOCK"`
+	Envelopestock string `json:"ENVELOPESTOCK"`
+	Setup         string `json:"SETUP"`
+	Fmodule1      string `json:"FMODULE1"`
+	Fmodule2      string `json:"FMODULE2"`
+	Fmodule3      string `json:"FMODULE3"`
+	Bmodule1      string `json:"BMODULE1"`
+	Bmodule2      string `json:"BMODULE2"`
+	Jobgroup      string `json:"JOBGROUP"`
+	Defaultqueue  string `json:"DEFAULTQUEUE"`
+	Platformcode  string `json:"PLATFORMCODE"`
+}
