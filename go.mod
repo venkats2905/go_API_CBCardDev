@@ -1,4 +1,4 @@
-module db
+module go_API_CBCardDev
 
 go 1.19
 
