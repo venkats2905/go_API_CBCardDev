@@ -1,27 +1,23 @@
-package production
+package controller
 
 import (
-	"db/dataservice"
-	"db/models"
 	"fmt"
+	"go_API_CBCardDev/dataservice"
+	"go_API_CBCardDev/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	// _ "github.com/gin-gonic/gin"
 )
 
 var productioncards []models.Productioncard
 
-func getProduction(c *gin.Context) {
+func GetProduction(c *gin.Context) {
 	fmt.Println("To get all the productioncards present")
-	// db := dataservice.ConnectToDb()
-	// fmt.Println("\n in getProduction", db)
 	productioncards = dataservice.GetProductionCardFromDb(nil)
 	c.IndentedJSON(http.StatusOK, productioncards)
-	//productioncards = make([]models.Productioncard, 0)
 }
 
-func getProductionByID(c *gin.Context) {
+func GetProductionByID(c *gin.Context) {
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
 
@@ -48,7 +44,7 @@ func getProductionByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Production card not found"})
 }
 
-func addProduction(c *gin.Context) {
+func AddProduction(c *gin.Context) {
 	fmt.Println("--------------------------------IN POST REQ FUNCTION----------------------")
 	var newproductioncards models.Productioncard
 
@@ -67,7 +63,8 @@ func addProduction(c *gin.Context) {
 	c.IndentedJSON(http.StatusCreated, newproductioncards)
 }
 
-func deleteProductionByID(c *gin.Context) {
+func DeleteProductionByID(c *gin.Context) {
+	productioncards = dataservice.GetProductionCardFromDb(nil)
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
 	for index, a := range productioncards {
@@ -84,7 +81,8 @@ func deleteProductionByID(c *gin.Context) {
 
 }
 
-func updateProductionByID(c *gin.Context) {
+func UpdateProductionByID(c *gin.Context) {
+	productioncards = dataservice.GetProductionCardFromDb(nil)
 	contractnbr := c.Param("contractnbr")
 	fmt.Println(contractnbr)
 	// Parse the request body to get the updated album data
