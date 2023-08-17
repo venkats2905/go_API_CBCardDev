@@ -2,6 +2,7 @@ package production
 
 import (
 	gr "db/API/graphic"
+	"db/API/productionschedule"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +22,12 @@ func Routes() {
 	router.POST("/graphic", gr.AddGraphic)
 	router.PUT("/graphic/:graphicrevisionnbr", gr.UpdateGraphicByID)
 	router.DELETE("/graphic/:graphicrevisionnbr", gr.DeleteGraphicByID)
+
+	router.GET("/productionschedule", productionschedule.GetProductionschedule)
+	router.GET("/productionschedule/:jobname", productionschedule.GetProductionscheduleByID)
+	router.POST("/productionschedule", productionschedule.AddProductionschedule)
+	router.PUT("/productionschedule/:jobname", productionschedule.UpdateProductionscheduleByID)
+	router.DELETE("/productionschedule/:jobname", productionschedule.DeleteProductionscheduleByID)
 
 	router.Run("localhost:8081")
 	fmt.Printf("starting server at 8081")
