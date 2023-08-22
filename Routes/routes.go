@@ -28,6 +28,12 @@ func Routes() {
 	router.PUT("/processedfile/:fileid", cr.UpdateprocessedfileByID)
 	router.DELETE("/processedfile/:fileid", cr.DeleteprocessedfileByID)
 
+	router.GET("/production", cr.GetCard)
+	router.GET("/production/:cardrevisionid", cr.GetCardByID)
+	router.POST("/production", cr.AddCard)
+	router.PUT("/production/:cardrevisionid", cr.UpdateCardByID)
+	router.DELETE("/production/:cardrevisionid", cr.DeleteCardByID)
+
 	router.Run("localhost:8081")
 	fmt.Printf("starting server at 8081")
 

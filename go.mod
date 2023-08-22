@@ -1,10 +1,10 @@
-module go_API_CBCardDev
+module db
 
-go 1.19
+go 1.21.0
 
 require (
 	github.com/gin-gonic/gin v1.9.1
-	github.com/sijms/go-ora/v2 v2.7.12
+	github.com/sijms/go-ora/v2 v2.7.15
 	golang.org/x/net v0.14.0
 )
 
