@@ -22,6 +22,7 @@ func GetGraphicByID(c *gin.Context) {
 	graphicrevisionnbr := c.Param("graphicrevisionnbr")
 	fmt.Println(graphicrevisionnbr)
 	//graphics = dataservice.GetGraphicCardFromDb(graphics)
+	graphics = dataservice.GetGraphicCardFromDb(nil)
 
 	// You're looping over graphics, but you haven't shown where graphics is defined.
 	// Assuming graphics is a slice of models.Graphic.
