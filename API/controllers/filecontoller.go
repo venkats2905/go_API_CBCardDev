@@ -25,6 +25,7 @@ func GetprocessedfileByID(c *gin.Context) {
 
 	// You're looping over processedfiles, but you haven't shown where processedfiles is defined.
 	// Assuming processedfiles is a slice of models.Productioncard.
+	processedfiles = dataservice.GetProcessedfilesFromDb(nil)
 	for _, a := range processedfiles {
 		fmt.Println(a.Fileid, fileid)
 		fileid, _ := strconv.Atoi(fileid)

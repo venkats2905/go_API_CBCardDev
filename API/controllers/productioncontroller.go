@@ -23,6 +23,7 @@ func GetProductionByID(c *gin.Context) {
 
 	// You're looping over productioncards, but you haven't shown where productioncards is defined.
 	// Assuming productioncards is a slice of models.Productioncard.
+	productioncards = dataservice.GetProductionCardFromDb(nil)
 	for _, a := range productioncards {
 		fmt.Println(a.Contractnbr, contractnbr)
 		if a.Contractnbr == contractnbr {
