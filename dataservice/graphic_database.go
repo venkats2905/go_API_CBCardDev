@@ -1,8 +1,8 @@
 package dataservice
 
 import (
-	"db/models"
 	"fmt"
+	"db/models"
 	"log"
 
 	_ "github.com/sijms/go-ora/v2"

@@ -60,3 +60,15 @@ type Tracking_seq struct {
 	SEARCHCODE       int       `json:"SEARCHCODE"`
 	REPTTYPE         string    `json:"REPTTYPE"`
 }
+type ProcessedFile struct {
+	Fileid          int       `json:"fielid"`
+	Source_system   string    `json:"source_system"`
+	Platform        string    `json:"platform"`
+	Isproduction    string    `json:"isproduction"`
+	Header_date     time.Time `json:"header_date"`
+	Process_date    time.Time `json:"process_date"`
+	Start_seq       int       `json:"start_seq"`
+	End_seq         int       `json:"end_seq"`
+	File_name       string    `json:"file_name"`
+	Mabx_csm_fileid string    `json:"mabx_csm_fileid"`
+}

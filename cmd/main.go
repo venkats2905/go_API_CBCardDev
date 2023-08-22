@@ -1,9 +1,9 @@
 package main
 
 import (
-	"db/API/production"
+	r "db/Routes"
 )
 
 func main() {
-	production.Routes()
+	r.Routes()
 }

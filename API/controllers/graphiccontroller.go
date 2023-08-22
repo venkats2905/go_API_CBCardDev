@@ -1,22 +1,19 @@
-package graphic
+package controller
 
 import (
+	"fmt"
 	"db/dataservice"
 	"db/models"
-	"fmt"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	// _ "github.com/gin-gonic/gin"
 )
 
 var graphics []models.Graphic
 
 func GetGraphics(c *gin.Context) {
 	fmt.Println("To get all the graphics present")
-	// db := dataservice.ConnectToDb()
-	// fmt.Println("\n in getProduction", db)
 	graphics = dataservice.GetGraphicCardFromDb(nil)
 	c.IndentedJSON(http.StatusOK, graphics)
 }
@@ -25,6 +22,7 @@ func GetGraphicByID(c *gin.Context) {
 	graphicrevisionnbr := c.Param("graphicrevisionnbr")
 	fmt.Println(graphicrevisionnbr)
 	//graphics = dataservice.GetGraphicCardFromDb(graphics)
+	graphics = dataservice.GetGraphicCardFromDb(nil)
 
 	// You're looping over graphics, but you haven't shown where graphics is defined.
 	// Assuming graphics is a slice of models.Graphic.
@@ -70,6 +68,7 @@ func AddGraphic(c *gin.Context) {
 }
 
 func DeleteGraphicByID(c *gin.Context) {
+	graphics = dataservice.GetGraphicCardFromDb(nil)
 	graphicrevisionnbr := c.Param("graphicrevisionnbr")
 	fmt.Println(graphicrevisionnbr)
 	for index, a := range graphics {
@@ -88,6 +87,7 @@ func DeleteGraphicByID(c *gin.Context) {
 }
 
 func UpdateGraphicByID(c *gin.Context) {
+	graphics = dataservice.GetGraphicCardFromDb(nil)
 	graphicrevisionnbr := c.Param("graphicrevisionnbr")
 	fmt.Println(graphicrevisionnbr)
 	// Parse the request body to get the updated album data
