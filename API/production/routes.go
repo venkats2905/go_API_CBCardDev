@@ -2,6 +2,9 @@ package production
 
 import (
 	gr "db/API/graphic"
+
+	"db/API/trackingsequence"
+
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -21,6 +24,12 @@ func Routes() {
 	router.POST("/graphic", gr.AddGraphic)
 	router.PUT("/graphic/:graphicrevisionnbr", gr.UpdateGraphicByID)
 	router.DELETE("/graphic/:graphicrevisionnbr", gr.DeleteGraphicByID)
+
+	router.GET("/tracking", trackingsequence.GetTracking_Seq)
+	router.GET("/tracking/:CONTRACTNBR", trackingsequence.GetTracking_SeqByID)
+	router.POST("/tracking", trackingsequence.AddTracking_Seq)
+	router.PUT("/tracking/:CONTRACTNBR", trackingsequence.UpdateTracking_SeqByID)
+	router.DELETE("/tracking/:CONTRACTNBR", trackingsequence.DeleteTracking_SeqByID)
 
 	router.Run("localhost:8081")
 	fmt.Printf("starting server at 8081")
