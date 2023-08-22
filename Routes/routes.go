@@ -1,8 +1,8 @@
 package routes
 
 import (
+	cr "db/API/controllers"
 	"fmt"
-	cr "go_API_CBCardDev/API/controllers"
 
 	"github.com/gin-gonic/gin"
 )
