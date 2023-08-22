@@ -211,5 +211,5 @@ func DeleteCardFromDb(cardrevisionid int) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println("productioncard with cardrevisionid:", cardrevisionid, "deleted successfully")
+	fmt.Println("card with cardrevisionid:", cardrevisionid, "deleted successfully")
 }

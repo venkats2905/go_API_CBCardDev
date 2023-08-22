@@ -14,7 +14,7 @@ import (
 
 func GetCard(c *gin.Context) {
 	var cards []models.Carddetails
-	fmt.Println("To get all the productioncards present")
+	fmt.Println("To get all the cards present")
 	// db := dataservice.ConnectToDb()
 	// fmt.Println("\n in getProduction", db)
 	cards = dataservice.GetCardDataFromDb(cards)
@@ -120,7 +120,7 @@ func UpdateCardByID(c *gin.Context) {
 		}
 	}
 
-	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "productioncards not found"})
+	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "cards not found"})
 }
 
 func DeleteCardByID(c *gin.Context) {
