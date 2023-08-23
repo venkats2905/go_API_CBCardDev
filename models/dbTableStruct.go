@@ -44,6 +44,22 @@ type Graphic struct {
 	HorizOffset         int       `json:"HORIZOFFSET"`
 }
 
+type Tracking_seq struct {
+	CONTRACTNBR      string    `json:"CONTRACTNBR"`
+	SUBSEQ           string    `json:"SUBSEQ"`
+	GROUPSEQ         string    `json:"GROUPSEQ"`
+	GROUPNBR         string    `json:"GROUPNBR"`
+	SUFFIXNBR        string    `json:"SUFFIXNBR"`
+	HOMEPLAN         string    `json:"HOMEPLAN"`
+	MATRLDIST        string    `json:"MATRLDIST"`
+	DISPCODE         string    `json:"DISPCODE"`
+	SENTFLAG         string    `json:"SENTFLAG"`
+	CARDTEMPLATECODE string    `json:"CARDTEMPLATECODE"`
+	SETUPNAME        string    `json:"SETUPNAME"`
+	REQ_DATE         time.Time `json:"REQ_DATE"`
+	SEARCHCODE       int       `json:"SEARCHCODE"`
+	REPTTYPE         string    `json:"REPTTYPE"`
+}
 type ProcessedFile struct {
 	Fileid          int       `json:"fielid"`
 	Source_system   string    `json:"source_system"`

@@ -1,7 +1,7 @@
 package main
 
 import (
-	r "go_API_CBCardDev/Routes"
+	r "db/Routes"
 )
 
 func main() {

@@ -2,7 +2,7 @@ package dataservice
 
 import (
 	"fmt"
-	"go_API_CBCardDev/models"
+	"db/models"
 	"log"
 
 	_ "github.com/sijms/go-ora/v2"
