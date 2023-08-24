@@ -16,7 +16,7 @@ func GetProcessedfilesFromDb(processedfiles []models.ProcessedFile) []models.Pro
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	rows, err := db.QueryContext(ctx, "SELECT * FROM MANISH_ORACLE_DB.processedfile")
+	rows, err := db.QueryContext(ctx, "SELECT * FROM carddata.processedfile")
 	fmt.Println(rows, err)
 	if err != nil {
 		fmt.Println("-------------------", err)
@@ -51,7 +51,7 @@ func GetprocessedfilesByfileidFromDb(fileid int) (models.ProcessedFile, error) {
 	defer cancel()
 
 	var processedfiles models.ProcessedFile
-	query := `SELECT * FROM MANISH_ORACLE_DB.processedfile WHERE Fileid = :1`
+	query := `SELECT * FROM carddata.processedfile WHERE Fileid = :1`
 	fmt.Println("Query:", query)
 
 	// Prepare and execute the query
@@ -83,7 +83,7 @@ func PostAddProcessedfileToDb(processedfiles models.ProcessedFile) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `INSERT INTO MANISH_ORACLE_DB.processedfile (Fileid, Source_system, Platform,
+	query := `INSERT INTO carddata.processedfile (Fileid, Source_system, Platform,
 		Isproduction,Header_date,Process_date, Start_seq, End_seq, File_name, Mabx_csm_fileid) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10)`
 
 	fmt.Println("QUERY:", query)
@@ -107,7 +107,7 @@ func DeleteProcessedfileFromDb(fileid int) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := fmt.Sprintf("DELETE FROM MANISH_ORACLE_DB.processedfile WHERE fileid = %d", fileid)
+	query := fmt.Sprintf("DELETE FROM carddata.processedfile WHERE fileid = %d", fileid)
 	fmt.Println("Query:", query)
 
 	// Execute the DELETE query
@@ -125,7 +125,7 @@ func UpdateProcessedfileInDb(processedfiles models.ProcessedFile) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `UPDATE MANISH_ORACLE_DB.processedfile SET Fileid =:1, Source_system = :2, Platform= :3,
+	query := `UPDATE carddata.processedfile SET Fileid =:1, Source_system = :2, Platform= :3,
 	Isproduction = :4,Header_date = :5,Process_date = :6, Start_seq = :7, End_seq = :8, File_name = :9, Mabx_csm_fileid = :10`
 
 	fmt.Println("Query:", query)

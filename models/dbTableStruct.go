@@ -44,6 +44,22 @@ type Graphic struct {
 	HorizOffset         int       `json:"HORIZOFFSET"`
 }
 
+type Carddetails struct {
+	Cardrevisionid      int       `json:"cardrevisionid"`
+	Cardtemplatecode    string    `json:"cardtemplatecode"`
+	Comments            string    `json:"comments"`
+	Stockcode           string    `json:"stockcode"`
+	Effectivedate       time.Time `json:"effectivedate"`
+	Carriertemplatecode string    `json:"carriertemplatecode"`
+	Enddate             time.Time `json:"enddate"`
+	Status              string    `json:"status"`
+	Statusdate          time.Time `json:"statusdate"`
+	Creationdate        time.Time `json:"creationdate"`
+	Creationuserid      string    `json:"creationuserid"`
+	Lastupdates         time.Time `json:"lastupdates"`
+	Lastupdateuserid    string    `json:"lastupdateuserid"`
+}
+
 type ProcessedFile struct {
 	Fileid          int       `json:"fielid"`
 	Source_system   string    `json:"source_system"`
