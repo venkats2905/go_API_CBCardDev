@@ -60,7 +60,7 @@ type Platform struct {
 	Jobgroup      string `json:"JOBGROUP"`
 	Defaultqueue  string `json:"DEFAULTQUEUE"`
 	Platformcode  string `json:"PLATFORMCODE"`
-)
+}
 type ProcessedFile struct {
 	Fileid          int       `json:"fielid"`
 	Source_system   string    `json:"source_system"`
@@ -72,5 +72,4 @@ type ProcessedFile struct {
 	End_seq         int       `json:"end_seq"`
 	File_name       string    `json:"file_name"`
 	Mabx_csm_fileid string    `json:"mabx_csm_fileid"`
-
 }

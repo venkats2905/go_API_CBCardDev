@@ -1,7 +1,7 @@
 package dataservice
 
 import (
-	"db/models"
+	"go_API_CBCardDev/models"
 	//"database/sql"
 	"fmt"
 	"log"
