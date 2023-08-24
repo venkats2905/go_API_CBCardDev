@@ -1,8 +1,8 @@
 package routes
 
 import (
+	cr "db/API/controllers"
 	"fmt"
-	cr "go_API_CBCardDev/API/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,11 +28,11 @@ func Routes() {
 	router.PUT("/processedfile/:fileid", cr.UpdateprocessedfileByID)
 	router.DELETE("/processedfile/:fileid", cr.DeleteprocessedfileByID)
 
-	router.GET("/production", cr.GetCard)
-	router.GET("/production/:cardrevisionid", cr.GetCardByID)
-	router.POST("/production", cr.AddCard)
-	router.PUT("/production/:cardrevisionid", cr.UpdateCardByID)
-	router.DELETE("/production/:cardrevisionid", cr.DeleteCardByID)
+	router.GET("/card", cr.GetCard)
+	router.GET("/card/:cardrevisionid", cr.GetCardByID)
+	router.POST("/card", cr.AddCard)
+	router.PUT("/card/:cardrevisionid", cr.UpdateCardByID)
+	router.DELETE("/card/:cardrevisionid", cr.DeleteCardByID)
 
 	router.Run("localhost:8081")
 	fmt.Printf("starting server at 8081")

@@ -1,9 +1,9 @@
 package controller
 
 import (
+	"db/dataservice"
+	"db/models"
 	"fmt"
-	"go_API_CBCardDev/dataservice"
-	"go_API_CBCardDev/models"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

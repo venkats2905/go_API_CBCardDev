@@ -2,8 +2,8 @@ package dataservice
 
 import (
 	"database/sql"
+	"db/models"
 	"fmt"
-	"go_API_CBCardDev/models"
 	"log"
 
 	_ "github.com/sijms/go-ora/v2"
@@ -15,7 +15,7 @@ var localDB = map[string]string{
 	"username": "system",
 	"server":   "localhost",
 	"port":     "1521",
-	"password": "oracle",
+	"password": "varshith",
 }
 
 func ConnectToDb() *sql.DB {
@@ -42,7 +42,7 @@ func GetProductionCardFromDb(productioncards []models.Productioncard) []models.P
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	rows, err := db.QueryContext(ctx, "SELECT * FROM MANISH_ORACLE_DB.productioncard")
+	rows, err := db.QueryContext(ctx, "SELECT * FROM carddata.productioncard")
 	fmt.Println(rows, err)
 	if err != nil {
 		fmt.Println("-------------------", err)
@@ -78,7 +78,7 @@ func GetProductioncardByContractnbrFromDb(contractnbr string) (models.Production
 	defer cancel()
 
 	var productioncard models.Productioncard
-	query := `SELECT * FROM MANISH_ORACLE_DB.productioncard WHERE contractnbr = :1`
+	query := `SELECT * FROM carddata.productioncard WHERE contractnbr = :1`
 	fmt.Println("Query:", query)
 
 	// Prepare and execute the query
@@ -114,7 +114,7 @@ func PostAddProductionToDb(productioncards models.Productioncard) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `INSERT INTO MANISH_ORACLE_DB.productioncard (Contractnbr, Requestdate, Status, Statusdate, Statusby,
+	query := `INSERT INTO carddata.productioncard (Contractnbr, Requestdate, Status, Statusdate, Statusby,
 		Searchcode, Cardcount, Jobname, Producedby, Produceddate,
 		Scheduleddate, Cardtemplatecode, Groupnbr, Suffixnbr, Matrldist, Trancd,
 		Reasoncd, Reptype, Litcode) VALUES (:1, :2, :3, :4, :5, :6, :7, :8, :9, :10, :11, :12, :13, :14, :15, :16, :17, :18, :19)`
@@ -143,7 +143,7 @@ func DeleteAlbumFromDb(contractnbr string) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := fmt.Sprintf("DELETE FROM MANISH_ORACLE_DB.productioncard WHERE contractnbr = %s", contractnbr)
+	query := fmt.Sprintf("DELETE FROM carddata.productioncard WHERE contractnbr = %s", contractnbr)
 	fmt.Println("Query:", query)
 
 	// Execute the DELETE query
@@ -161,7 +161,7 @@ func UpdateProductionInDb(productioncards models.Productioncard) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	query := `UPDATE MANISH_ORACLE_DB.productioncard SET Contractnbr = :1, Requestdate = :2, Status = :3, Statusdate = :4, Statusby = :5,
+	query := `UPDATE carddata.productioncard SET Contractnbr = :1, Requestdate = :2, Status = :3, Statusdate = :4, Statusby = :5,
 	Searchcode = :6, Cardcount = :7, Jobname = :8, Producedby = :9, Produceddate = :10,
 	Scheduleddate = :11, Cardtemplatecode = :12, Groupnbr = :13, Suffixnbr = :14, Matrldist = :15, Trancd = :16,
 	Reasoncd = :17, Reptype = :18, Litcode = :19  WHERE Contractnbr = :1`

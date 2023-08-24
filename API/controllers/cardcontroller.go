@@ -87,7 +87,7 @@ func UpdateCardByID(c *gin.Context) {
 	cardrevisionid := c.Param("cardrevisionid")
 	Cardrevisionid1, err := strconv.Atoi(cardrevisionid)
 	fmt.Println(Cardrevisionid1, err, reflect.TypeOf(Cardrevisionid1))
-	//fmt.Println(cardrevisionid)
+	fmt.Println(cardrevisionid)
 	// Parse the request body to get the updated album data
 	var updatedProductioncard models.Carddetails
 	if err := c.ShouldBindJSON(&updatedProductioncard); err != nil {
@@ -97,7 +97,7 @@ func UpdateCardByID(c *gin.Context) {
 	cards = dataservice.GetCardDataFromDb(cards)
 	for index, a := range cards {
 		if a.Cardrevisionid == Cardrevisionid1 {
-			fmt.Println("In for Contractnbr is:", a.Cardrevisionid)
+			fmt.Println("In for cardrevisionid is:", a.Cardrevisionid)
 			//db := dataservice.ConnectToDb()
 			dataservice.UpdateCardInDb(updatedProductioncard)
 			// Update the album's data with the new data from the request body
@@ -115,7 +115,7 @@ func UpdateCardByID(c *gin.Context) {
 			cards[index].Lastupdates = updatedProductioncard.Lastupdates
 			cards[index].Lastupdateuserid = updatedProductioncard.Lastupdateuserid
 
-			c.IndentedJSON(http.StatusOK, productioncards[index])
+			c.IndentedJSON(http.StatusOK, cards[index])
 			return
 		}
 	}
