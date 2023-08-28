@@ -4,8 +4,8 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"go_API_CBCardDev/models"
 	"log"
-	"db/models"
 
 	_ "github.com/sijms/go-ora/v2"
 )

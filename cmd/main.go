@@ -1,9 +1,9 @@
 package main
 
 import (
-	"db/API/production"
+	r "go_API_CBCardDev/Routes"
 )
 
 func main() {
-	production.Routes()
+	r.Routes()
 }

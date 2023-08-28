@@ -1,9 +1,10 @@
-package trackler
+package controller
 
 import (
-	"db/dataservice"
-	"db/models"
 	"fmt"
+	"go_API_CBCardDev/dataservice"
+	dbase "go_API_CBCardDev/dataservice"
+	"go_API_CBCardDev/models"
 	"net/http"
 	"reflect"
 	"strconv"
@@ -13,11 +14,11 @@ import (
 
 var Trackrecord []models.Trackingsequence_archive
 
-func GetProduction(c *gin.Context) {
+func Gettrackler(c *gin.Context) {
 	fmt.Println("To get all the productioncards present")
-	db := dataservice.ConnectToDb()
+	db := dbase.ConnectToDb()
 	fmt.Println("\n in getProduction", db)
-	Trackrecord = dataservice.GetTracking(Trackrecord, db)
+	Trackrecord = dbase.GetTracking(Trackrecord, db)
 	c.IndentedJSON(http.StatusOK, Trackrecord)
 	Trackrecord = make([]models.Trackingsequence_archive, 0)
 }
@@ -65,7 +66,7 @@ func Adddata(c *gin.Context) {
 	Trackrecord = make([]models.Trackingsequence_archive, 0)
 }
 
-func UpdateProductionByID(c *gin.Context) {
+func UpdatetracklerbyID(c *gin.Context) {
 	fmt.Println("------UPDADTE-------------")
 	SID := c.Param("SID")
 	S, err := strconv.Atoi(SID)
@@ -110,7 +111,7 @@ func UpdateProductionByID(c *gin.Context) {
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "productioncards not found"})
 }
 
-func DeleteProductionByID(c *gin.Context) {
+func DeletetracklerByID(c *gin.Context) {
 	db := dataservice.ConnectToDb()
 	Trackrecord = dataservice.GetTracking(Trackrecord, db)
 	SID := c.Param("SID")
