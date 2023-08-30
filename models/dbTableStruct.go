@@ -56,3 +56,16 @@ type ProcessedFile struct {
 	File_name       string    `json:"file_name"`
 	Mabx_csm_fileid string    `json:"mabx_csm_fileid"`
 }
+
+type Management struct {
+	StockCode           int       `json:"stockcode"`
+	EffectiveDate       time.Time `json:"effective_date"`
+	CarrierTemplateCode string    `json:"carrier_template_code"`
+	EndDate             time.Time `json:"end_date"`
+	Status              string    `json:"status"`
+	StatusDate          time.Time `json:"status_date"`
+	CreationDate        time.Time `json:"creation_date"`
+	CreationUserID      int       `json:"creation_user_id"`
+	LastUpdates         string    `json:"lastupdates"`
+	LastUpdatesUserID   int       `json:"lastupdates_user_id"`
+}

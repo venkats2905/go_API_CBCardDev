@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"db/dataservice"
-	"db/models"
+	"go_API_CBCardDev/dataservice"
+	"go_API_CBCardDev/models"
 	"fmt"
 	"net/http"
 	"strconv"
